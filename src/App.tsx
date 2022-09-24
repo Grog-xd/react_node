@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import axios from 'axios';
+
+import {ItemsProps} from '../types/types';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [items, setItems] = useState<ItemsProps[]>([])
+
+    function getItems(){
+        axios.get('http://localhost:3030/api/item')
+            .then(response => response.data)
+            .then(response => setItems(response))
+            .catch(e => console.log(e.message))
+    }
+
+    useEffect(getItems, [])
+
+    return (
+        <div className='App'>
+            {items.map((item) =>
+                <div key={item.id}>
+                    <p>{item.name}</p>
+                    <p>{item.quantity}</p>
+                    <p>{item.interval}</p>
+                </div>,
+            )}
+        </div>
+    );
 }
 
 export default App;
