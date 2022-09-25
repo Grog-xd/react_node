@@ -1,0 +1,12 @@
+.paginationItem{
+  cursor: pointer;
+  padding-bottom: 3px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: 0.5s all ease;
+  font-size: 16px;
+  &:hover{
+    border-bottom: 2px solid rgba(102, 78, 249, 0.8);
+  }
+}

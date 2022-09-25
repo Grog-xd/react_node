@@ -1,0 +1,13 @@
+.Item{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  border-bottom: 2px solid rgba(102, 78, 249, 0.8);
+  padding-bottom: 5px;
+  &>*{
+    width: 200px;
+  }
+  &:last-child{
+    border-bottom: none;
+  }
+}

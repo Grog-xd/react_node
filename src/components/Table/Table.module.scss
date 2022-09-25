@@ -1,0 +1,17 @@
+.Table{
+  border: 2px solid rgba(102, 78, 249, 0.8);
+  min-width: 360px;
+  border-radius: 20px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.errorMessage{
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 24px;
+}
+

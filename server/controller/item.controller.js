@@ -2,8 +2,8 @@ const db = require('../db')
 
 class ItemController{
     async createItem(req, res){
-        const {name, quantity, interval} = req.body
-        const newItem = await db.query('INSERT INTO item (name, quantity, interval) values ($1, $2, $3) RETURNING *', [name, quantity, interval])
+        const {name, quantity, interval, date} = req.body
+        const newItem = await db.query('INSERT INTO item (name, quantity, interval, date) values ($1, $2, $3, $4) RETURNING *', [name, quantity, interval, date])
 
         res.json(newItem.rows[0])
     }

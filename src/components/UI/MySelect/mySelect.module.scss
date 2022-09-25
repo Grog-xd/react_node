@@ -1,0 +1,50 @@
+
+
+.select{
+  position: relative;
+  width: 150px;
+}
+.changeBlock{
+  transition: 0.5s all ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F8F8F8;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 9px 12px;
+  cursor: pointer;
+  width: 100%;
+  &:hover{
+    background: rgba(102, 78, 249, 0.1);
+  }
+
+}
+.changeBlockActive{
+  border: 2px solid rgba(102, 78, 249, 0.8);
+}
+.optionsBlock{
+  position: absolute;
+  top: 47px;
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: 0 0 40px rgba(135, 124, 202, 0.3);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  padding: 3px;
+
+  button{
+    padding: 10px 15px;
+    width: 100%;
+    text-align: start;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: none;
+    &:hover{
+      background: #F8F8F8;
+    }
+  }
+}
+
