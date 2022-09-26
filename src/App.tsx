@@ -15,7 +15,7 @@ function App() {
     const [items, setItems] = useState<ItemsProps[]>([])
     const [sortedItems, setSortedItems] = useState<any>([])
     const [errorStatus, setErrorStatus] = useState<boolean>(false)
-    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [currentPage, setCurrentPage] = useState<number | string>(1)
 
     //отвечает за то сколько товаров будет на странице
     const [limitItems, setLimitItems] = useState<number>(5)
@@ -29,15 +29,33 @@ function App() {
     }
 
 
-    //создание отсортированных
-    function getSortedItems(){
-        setSortedItems(items)
+
+
+    //создание отсортированных items + пагинация
+    function getSortedItems(items:any){
+        let res = []
+        let iteration = 0
+        for (let i = 0; iteration < items.length; i++) {
+            let obj = []
+            for (let j = 0; j< limitItems; j++) {
+
+                if(items[iteration]){
+                    obj.push(items[iteration])
+                    iteration++
+                }
+
+            }
+            res.push(obj)
+        }
+        setSortedItems(res)
     }
 
 
 
     useEffect(getItems, [])
-    useEffect(getSortedItems, [items])
+    useEffect(()=>{
+        getSortedItems(items)
+    },  [items])
 
 
 
@@ -46,7 +64,7 @@ function App() {
         setErrorStatus(false)
         // обработка отмены (reset)
         if(col === '' && req === '' && input === ''){
-            setSortedItems(items)
+            getSortedItems(items)
         }
 
 
@@ -58,10 +76,10 @@ function App() {
         case 'название':
             switch (req){
             case 'равно':
-                setSortedItems(items.filter(e => e.name == input))
+                getSortedItems(items.filter(e => e.name == input))
                 break
             case 'содержит':
-                setSortedItems(items.filter((e) => e.name.toLowerCase().includes(input)))
+                getSortedItems(items.filter((e) => e.name.toLowerCase().includes(input)))
                 break
             default:
                 setErrorStatus(true)
@@ -73,13 +91,13 @@ function App() {
 
             switch (req){
             case 'равно':
-                setSortedItems(items.filter(e => e.quantity == input))
+                getSortedItems(items.filter(e => e.quantity == input))
                 break
             case 'больше':
-                setSortedItems(items.filter(e => e.quantity > input))
+                getSortedItems(items.filter(e => e.quantity > input))
                 break
             case 'меньше':
-                setSortedItems(items.filter(e => e.quantity < input))
+                getSortedItems(items.filter(e => e.quantity < input))
                 break
             default :
                 setErrorStatus(true)
@@ -88,32 +106,34 @@ function App() {
         case 'расстояние':
             switch (req){
             case 'равно':
-                setSortedItems(items.filter(e => e.interval == input))
+                getSortedItems(items.filter(e => e.interval == input))
                 break
             case 'больше':
-                setSortedItems(items.filter(e => e.interval > input))
+                getSortedItems(items.filter(e => e.interval > input))
                 break
             case 'меньше':
-                setSortedItems(items.filter(e => e.interval < input))
+                getSortedItems(items.filter(e => e.interval < input))
                 break
             default:
                 setErrorStatus(true)
             }
             break
+
         }
+
     }
 
 
     return (
         <div className='App'>
             <FilterSection handler={(activeValueColumn, activeValueRequirement, inputValue) => filterItems(activeValueColumn.toLowerCase(), activeValueRequirement.toLowerCase(), inputValue.toLowerCase())}/>
-            {errorStatus && <h2>Ошибка фильтрации, пожалуйста введите корректную фильтрацию </h2>}
+            {errorStatus && <h2>Ошибка фильтрации, пожалуйста введите корректно данные в фильтры </h2>}
             {
                 items.length
-                    ? <Table  items={sortedItems}/>
+                    ? <Table  items={sortedItems} currentPage={currentPage}/>
                     : <Loader />
             }
-            {/*<PaginationList pagesLen={sortedItems.length} currentPage={currentPage} handler={(page) => setCurrentPage(page)} />*/}
+            <PaginationList pagesLen={sortedItems.length} currentPage={currentPage} handler={(page) => setCurrentPage(page)} />
         </div>
     );
 }

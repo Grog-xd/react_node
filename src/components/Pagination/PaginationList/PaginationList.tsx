@@ -7,8 +7,8 @@ import classes from './PaginationList.module.scss';
 
 interface PaginationListProps{
     pagesLen: number,
-    currentPage: number,
-    handler: (e:number) => void
+    currentPage: number | string,
+    handler: (page: number| string) => void
 }
 
 const PaginationList:FC <PaginationListProps>= ({pagesLen, currentPage, handler}) => {
@@ -20,13 +20,13 @@ const PaginationList:FC <PaginationListProps>= ({pagesLen, currentPage, handler}
     }, [pagesLen, currentPage])
 
     // Функция для создания страниц
-
+    // если страниц будет много, то часть будет скрываться и на их месте будет '...'
     function createPages(){
         let arr = []
 
         for(let i = 0; i < pagesLen; i++){
-            if((currentPage + 6 > i && currentPage - 6 < i) || i + 1 === pagesLen || i === 0){
-                if(i === pagesLen-1 && currentPage + 7 <= pagesLen - 1){
+            if((+currentPage + 6 > i && +currentPage - 6 < i) || i + 1 === pagesLen || i === 0){
+                if(i === pagesLen-1 && +currentPage + 7 <= pagesLen - 1){
                     arr.push('...')
                 }
                 arr.push(i + 1)
@@ -41,9 +41,11 @@ const PaginationList:FC <PaginationListProps>= ({pagesLen, currentPage, handler}
     return (
         <div className={classes.paginationList}>
             {
-                pagesArr.map((page:any, index:number)=>
-                    <PaginationItem key={index} currentPage={currentPage} handler={()=>handler} page={page}/>
-                )
+                pagesArr.length !== 1
+                    &&
+                    pagesArr.map((page:any, index:number)=>
+                        <PaginationItem key={index} currentPage={currentPage} handler={handler} page={page}/>,
+                    )
             }
         </div>
     );

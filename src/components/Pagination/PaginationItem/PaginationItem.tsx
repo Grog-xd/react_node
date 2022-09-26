@@ -3,12 +3,13 @@ import React, {FC, useEffect, useState} from 'react';
 import classes from './PaginationItem.module.scss';
 
 interface PaginationItemProps{
-    currentPage:number,
+    currentPage:number | string,
     page:number | string,
-    handler: (currentPage:number | string) => void
+    handler: (page: number | string) => void
 }
 
 const PaginationItem:FC <PaginationItemProps>= ({currentPage, handler, page}) => {
+
 
     const [disabled, setDisabled] = useState<boolean>(false)
 
